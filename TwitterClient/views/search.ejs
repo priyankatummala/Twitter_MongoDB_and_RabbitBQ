@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html ng-app="Loggedin">
+<head>
+<title>Result</title>
+</head>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js">
+	
+</script>
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js">
+	
+</script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-sanitize.min.js"></script>
+
+
+<style>
+.center {
+	margin-left: auto;
+	margin-right: auto;
+	width: 400px;
+	font-size: 130%;
+}
+</style>
+<body style="margin-top: 0px; background-color: #F5F8FA"
+	ng-controller="ProfileCtrl">
+
+	<div class="row"
+		style="width: 101%; background-color: white; height: 4rem; ">
+		<div
+			style="width: 30%; float: left; margin-left: 2rem; margin-top: 0.5rem">
+			<a href="/home"> <span class="glyphicon glyphicon-home"
+				style="font-size: 18px">Home </span></a>
+		</div>
+		<div style="width: 20%; float: left; text-align: right">
+			<img src="/images/logo.png" alt="Twitter Bird"
+				style="height: 30px; width: 30px;">
+
+		</div>
+		<div
+			style="width: 20%; float: left; text-align: right; margin-left: 15rem">
+			<input id="searchText" ng-model="searchText" placeholder="Search Twitter"
+				style="moz-border-radius: 15px; border-radius: 15px; padding: 5px; float: left" />
+			<button id="search" ng-click="searchmembers(searchText)"
+				style="border-style: none; height: 30px; width: 40px; float: left;"
+				class="glyphicon glyphicon-search"></button>
+		</div>
+		<div style="width: 15%; float: right;">
+			<button id="Profile" ng-click="profile()"
+				style="float: left; background-color: #0084B4; height: 30px; width: 70px; float: left; margin-top: 0.25rem;"
+				class="btn btn-primary">Profile</button>
+
+			<button id="logout" ng-click="logout()"
+				style="margin-left: 3rem; float: right; background-color: #0084B4; height: 30px; width: 70px; float: left; margin-top: 0.25rem"
+				class="btn btn-primary">Logout</button>
+
+
+		</div>
+		<br> <br>
+		<div class="row"
+		style="width: 101%; background-color: #0084B4; height: 6rem; ">
+		<p style="text-align:center; margin-top:10px; font-size: 20px; color:white">Search Results</p>
+		</div>
+		<div style="width:50%; margin-left:auto; margin-right:auto; ">
+		<div style="width:100%; margin-left:auto; margin-right:auto; ">
+		<div ng-repeat="s in stweet">
+		<div ng-repeat = "t in s.tweets"
+				style="width: 100%; border-style: ridge; height: 90%; float: left; background-color: white">
+				<div style="width: 100%; height: 90%">
+					<img src="/images/NoImg.PNG" alt="No Image" height="40px"
+						width="40px"></img> <label><a href="#">{{s.firstname}} {{s.lastname}} </a>
+						@ {{s.thandle}}</label>
+
+				</div>
+				<div id="dtweet" ng-model="dtweet" ng-bind-html="t.tweet"
+					style="width: 100%; background-color: white">{{t.tweet}}</div>
+				<div style="margin-left: 15rem">
+					<a href="#"><span class="glyphicon glyphicon-retweet"></a>
+				</div>
+			</div>
+		</div>
+		</div>
+			
+		</div>
+		</div>
+
+		
+</body>
+<script>
+	var app = angular.module('Loggedin', [ 'ngSanitize' ]);
+	app.controller('ProfileCtrl', function($scope, $http) {
+		
+		$http({
+			method : 'POST',
+			url : '/popTweets',
+
+		}).success(function(response) {
+
+			$scope.stweet = response;
+
+		}).error(function(error) {
+			console.log(" error");
+		});
+		
+		$scope.profile = function() {
+
+							//window.location.href = '/profile';
+							$http({
+								method : 'POST',
+								url : '/sessionChk'
+
+							})
+									.success(
+											function(response) {
+											if(response.value=="Success"){
+												
+													window.location.href="/profile";}
+												
+											})
+									.error(
+											function(error) {
+												
+											});
+						}
+		
+		$scope.logout=function(){
+		window.location.href='/logout';
+						}
+			});
+</script>
+
+</html>

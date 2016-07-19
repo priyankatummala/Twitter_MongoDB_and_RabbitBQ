@@ -1,0 +1,106 @@
+<html ng-app="myApp">
+<head>
+<title>Login</title>
+
+
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-
+1.2.1.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js">
+	
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+</head>
+<style>
+.center {
+	margin-left: auto;
+	margin-right: auto;
+	width: 400px;
+	font-size: 130%;
+}
+</style>
+<body style="Background-color: #00bced"
+	ng-controller="SignupCtrl">
+	<div class="center">
+		<br>
+		<h2>Join Twitter Today</h2>
+		<form ng-submit="aftersignup()" >
+			<br>
+			<table>
+				<tr>
+					<td > <h3>First Name:</h3> </td>
+					<td > <h3><input type="text" name="fn" ng-model="fn" ></h3>
+				</tr>
+				<tr>
+					<td > <h3>Last Name: </td></h3>
+					<td > <h3><input type="text" name="ln" ng-model="ln" ></h3>
+				</tr>
+				<tr>
+					<td> <h3>Email </td></h3>
+					<td> <h3><input type="email" name="uname" ng-model="uname" placeholder="email"></h3>
+				</tr>
+				<tr>
+					<td> <h3>Password </td></h3>
+					<td> <h3><input type="password" name="password" ng-model="password" ></h3>
+				</tr>
+				<tr>
+					<td> <h3>Twitter Handle </td></h3>
+					<td> <h3><input type="text" name="THandle" ng-model="THandle" ></h3>
+				</tr>
+				
+				
+			</table>
+			<br/><br/>
+			<input style="margin-left: auto; margin-right: auto; width: 300px; font-size: 100%" type="submit"></button>
+			
+		</form>
+		
+	</div>
+</body>
+
+<script>
+	var app = angular.module('myApp', []);
+	app
+			.controller(
+					'SignupCtrl',
+					function($scope,$http) {
+								
+						
+					
+debugger
+						$scope.aftersignup = function() {
+						debugger
+							$http({
+								method : 'POST',
+								url : '/aftersignup',
+								data : {
+									'uname':$scope.uname,
+									'Fname' : $scope.fn,
+									'Lname' : $scope.ln,
+									'password':$scope.password,
+									'THandle':$scope.THandle
+								}
+
+							})
+									.success(
+										function(response) {
+										if(response.statusCode == 200 )
+										{
+												alert("successful signup");
+												window.location.href="/";
+											}
+											else
+											{
+												alert(response);
+											}
+											})
+									.error(
+											function(error) {
+												alert("Error signing up");
+											});
+						};
+
+					});
+</script>
+</html>
